@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 from selenium.webdriver.common.by import By
+from getpass import getpass
 import time
 
 option = Options()
@@ -58,8 +59,8 @@ def paste_like(times):
 
 
 def main():
-    login = input('Введите логин(подсказка: +375292374627):  ')
-    password = input('Введите пароль(подсказка: vohysury):  ')
+    login = input('Введите логин:  ')
+    password = getpass('Введите пароль:  ')
     times = 100
     reg(login, password)
     time.sleep(7)
