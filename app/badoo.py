@@ -3,13 +3,16 @@ from selenium.webdriver.firefox.options import Options
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 from selenium.webdriver.common.by import By
 from getpass import getpass
+import random
 import time
+
 
 option = Options()
 option.add_argument('--headless')
 browser = webdriver.Firefox(options=option)
 browser.get('https://badoo.com/ru/signin/?f=top')
 time.sleep(5)
+
 
 def reg(login, password):
     try:
@@ -18,13 +21,15 @@ def reg(login, password):
         browser.find_element_by_name('password').send_keys(password)
         time.sleep(1)
         browser.find_element_by_name('post').click()
-        print('Вы успешно вошли в свой аккаунт, начинаю проставлять лайки)\n')
-    except Exeption:
-        print('Не удалось зайти в аккаунт!!! Проверь логин, пароль, подключение к интернету')
-
+    except Exception:
+        print('Проверь подключение к интернету')
 
 def paste_like(times):
-    browser.find_element_by_class_name('js-profile-header-vote-yes').click()
+    try:
+        browser.find_element_by_class_name('js-profile-header-vote-yes').click()
+    except NoSuchElementException:
+        print('Не удалось войти в аккаунт!!! Проверь логин, пароль, подключение к интернету')
+    print('Вы успешно вошли в свой аккаунт, начинаю проставлять лайки)\n')
     time.sleep(1)
     page = browser.page_source
     if 'Пока всё!' in page:
@@ -45,7 +50,7 @@ def paste_like(times):
             return counter
         try:
             browser.find_element_by_class_name('ovl__close').click()
-            print('Взаимная симпатия, ооо даа!!! У кого-то будет секс)\n')
+            print('Взаимная симпатия, ооо даа!!! У кого-то будет чих-пых)\n')
         except NoSuchElementException:
             pass
         if random.randint(1,5) == 1:
@@ -53,7 +58,7 @@ def paste_like(times):
         else:
             browser.find_element_by_class_name('js-profile-header-vote-yes').click()
             counter += 1
-        print(f'Добавленных лайков  =  {counter} шт.\n')
+            print(f'Добавленных лайков  =  {counter} шт.\n')
         time.sleep(2)
 
 
